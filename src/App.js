@@ -4,7 +4,7 @@ import LocationForm from "./compnents/LocationForm";
 import LocationInformation from "./compnents/LocationInformation";
 import axios from "axios";
 import Header from "./compnents/Header";
-import { Alert } from "react-bootstrap";
+import ErrorAlert from "./compnents/ErrorAlert";
 
 class App extends Component {
   constructor(props) {
@@ -16,6 +16,7 @@ class App extends Component {
       lon: "",
       isSubmit: false,
       showModal: false,
+      apiError: "",
     };
   }
 
@@ -34,15 +35,27 @@ class App extends Component {
       baseURL: `https://api.locationiq.com/v1/autocomplete.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.city_name}`,
     };
 
-    axios(config).then((res) => {
-      let responseData = res.data[0];
-      this.setState({
-        city_name: responseData.display_name,
-        lon: responseData.lon,
-        lat: responseData.lat,
-        isSubmit: true,
+    axios(config)
+      .then((res) => {
+        let responseData = res.data[0];
+        this.setState({
+          city_name: responseData.display_name,
+          lon: responseData.lon,
+          lat: responseData.lat,
+          isSubmit: true,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          showModal: true,
+          apiError: err,
+        });
       });
-      console.log(responseData);
+  };
+
+  handleClose = () => {
+    this.setState({
+      showModal: false,
     });
   };
 
@@ -80,6 +93,12 @@ class App extends Component {
             ></img>
           </div>
         )}
+
+        <ErrorAlert
+          handleClose={this.handleClose}
+          showModal={this.state.showModal}
+          error={this.state.apiError}
+        />
       </div>
     );
   }

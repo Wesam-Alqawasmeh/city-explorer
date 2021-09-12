@@ -5,7 +5,10 @@ class LocationInformation extends Component {
   render() {
     return (
       <>
-        <Card border="primary" style={{ width: "18rem", marginLeft: 150 }}>
+        <Card
+          border="primary"
+          style={{ width: "18rem", marginLeft: 150, height: "fit-content" }}
+        >
           <Card.Header>{this.props.city_name}</Card.Header>
           <Card.Body>
             <Card.Title>Primary Card Title</Card.Title>

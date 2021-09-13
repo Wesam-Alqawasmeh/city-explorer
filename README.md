@@ -1,4 +1,4 @@
-**Miro Whiteboard :** https://miro.com/welcomeonboard/MDhyeUpsYkdVcHpQV1JIVno1OEVZZlN1ZktFbnh0R2lHRjJPbllIdUl6QzJkQzBEUlJqOU9NT1M5M1FaQjRxMnwzMDc0NDU3MzYyNDUxODIwNzk3?invite_link_id=117749901662
+
 
 
 # City-Explorer
@@ -9,19 +9,45 @@
 ## Overview
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
 
+- This website is created to find discover more informations like (lat,lon...) about the location you want.
+
 ## Getting Started
 <!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+1. creat a new react app.
+2. link it with github.
+4. create the components that allow you to view the form and the information and import them to the app.js.
+5. Use locationIq api to git your request.
 
 ## Architecture
 <!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
+- **Miro Whiteboard :** https://miro.com/welcomeonboard/MDhyeUpsYkdVcHpQV1JIVno1OEVZZlN1ZktFbnh0R2lHRjJPbllIdUl6QzJkQzBEUlJqOU9NT1M5M1FaQjRxMnwzMDc0NDU3MzYyNDUxODIwNzk3?invite_link_id=117749901662
+
+languages: html, css, Js.
+
+libraries: react, react-bootsrap, locationIQ api, bootstrap.
 
 ## Change Log
 <!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
 
 01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
-
+12/9/2020 5:00pm - Application deployed to netlify
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+https://reactjs.org/ 
+
+https://react-bootstrap.github.io/ 
+
+----------------------------------------------------------------------------------------------------------------------
+
+Name of feature: _____________location form___________________
+
+Estimate of time needed to complete: ___2 hours__
+
+Start time: __2:30pm___
+
+Finish time: _7pm____
+
+Actual time needed to complete: ___4:30 hours__
 
 -----------------------------------------------------------------------------------------------------------------------
 

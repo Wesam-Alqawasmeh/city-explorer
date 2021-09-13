@@ -5,6 +5,7 @@ import LocationInformation from "./compnents/LocationInformation";
 import axios from "axios";
 import Header from "./compnents/Header";
 import ErrorAlert from "./compnents/ErrorAlert";
+import Weather from "./compnents/Weather";
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class App extends Component {
       isSubmit: false,
       showModal: false,
       apiError: "",
+      weatherData: [],
     };
   }
 
@@ -39,7 +41,7 @@ class App extends Component {
       .then((res) => {
         let responseData = res.data[0];
         this.setState({
-          city_name: responseData.display_name,
+          city_name: responseData.address.name,
           lon: responseData.lon,
           lat: responseData.lat,
           isSubmit: true,
@@ -50,6 +52,23 @@ class App extends Component {
           showModal: true,
           apiError: err,
         });
+      })
+      .then(() => {
+        axios
+          .get(
+            `${process.env.REACT_APP_LOCAL_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}&q=${this.state.city_name}`
+          )
+          .then((res) => {
+            this.setState({
+              weatherData : res.data
+            })
+          })
+          .catch((err) => {
+            this.setState({
+              showModal: true,
+              apiError: err,
+            })
+          })
       });
   };
 
@@ -81,11 +100,19 @@ class App extends Component {
               backgroundColor: "#c2c9d1",
             }}
           >
+            <div style={{display:"grid", gridTemplateRows:"1fr 1fr"}}>
             <LocationInformation
               city_name={this.state.city_name}
               lat={this.state.lat}
               lon={this.state.lon}
             />
+
+            
+               <Weather weatherData={this.state.weatherData}  city_name={this.state.city_name}/>
+            
+            </div>
+            
+            
 
             <img
               src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center= ${this.state.lat},${this.state.lon}&zoom=1-18`}

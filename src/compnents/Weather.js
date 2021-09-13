@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Card } from "react-bootstrap";
 
-class LocationInformation extends Component {
+export class Weather extends Component {
   render() {
     return (
       <>
@@ -11,10 +11,16 @@ class LocationInformation extends Component {
         >
           <Card.Header>{this.props.city_name}</Card.Header>
           <Card.Body>
-            <Card.Title>Information</Card.Title>
+            <Card.Title>Daily Waether</Card.Title>
             <Card.Text>
-              <p>Lattitude: {this.props.lat}</p>
-              <p>Longittude: {this.props.lon}</p>
+              {this.props.weatherData.map((item) => {
+                return (
+                  <div style={{borderBottom:"2px solid #2680ed"}}>
+                    <p>Date: {item.date}</p>
+                    <p>Description: {item.description}</p>
+                  </div>
+                );
+              })}
             </Card.Text>
           </Card.Body>
         </Card>
@@ -23,4 +29,4 @@ class LocationInformation extends Component {
   }
 }
 
-export default LocationInformation;
+export default Weather;

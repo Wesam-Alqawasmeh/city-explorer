@@ -9,9 +9,9 @@ class ErrorAlert extends Component {
           <Alert variant="danger" onClose={this.props.handleClose} dismissible>
             <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
             <p>
-              {this.props.error.message}
+            {this.props.frontError.name}: {this.props.frontError.message}
               <br />
-              {this.props.error.name}
+              {this.props.backError.name}: {this.props.backError.message}
             </p>
           </Alert>
         </Modal>

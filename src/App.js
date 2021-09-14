@@ -6,6 +6,7 @@ import axios from "axios";
 import Header from "./compnents/Header";
 import ErrorAlert from "./compnents/ErrorAlert";
 import Weather from "./compnents/Weather";
+import TopMovies from "./compnents/TopMovies";
 
 class App extends Component {
   constructor(props) {
@@ -15,15 +16,19 @@ class App extends Component {
       city_name: "",
       lat: "",
       lon: "",
+      country_code: "",
       isSubmit: false,
       showModal: false,
       apiError: "",
+      sreverError: "",
+      movies: [],
       weatherData: [],
     };
   }
 
   getName = (e) => {
     this.setState({
+      weatherData: [],
       city_name: `${e.target.value}`,
       isSubmit: false,
     });
@@ -44,6 +49,7 @@ class App extends Component {
           city_name: responseData.address.name,
           lon: responseData.lon,
           lat: responseData.lat,
+          country_code: responseData.address.country_code,
           isSubmit: true,
         });
       })
@@ -56,25 +62,44 @@ class App extends Component {
       .then(() => {
         axios
           .get(
-            `${process.env.REACT_APP_LOCAL_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}&q=${this.state.city_name}`
+            `${process.env.REACT_APP_LOCAL_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}`
           )
           .then((res) => {
             this.setState({
-              weatherData : res.data
-            })
+              weatherData: res.data,
+            });
           })
           .catch((err) => {
             this.setState({
               showModal: true,
-              apiError: err,
-            })
+              sreverError: err,
+            });
+          });
+      })
+      .then(() => {
+        axios
+          .get(
+            `${process.env.REACT_APP_LOCAL_URL}/movie?country_code=${this.state.country_code}`
+          )
+          .then((res) => {
+            this.setState({
+              movies: res.data,
+            });
           })
+          .catch((err) => {
+            this.setState({
+              showModal: true,
+              sreverError: err,
+            });
+          });
       });
   };
 
   handleClose = () => {
     this.setState({
       showModal: false,
+      apiError: "",
+      sreverError: "",
     });
   };
 
@@ -90,8 +115,8 @@ class App extends Component {
         {this.state.isSubmit && (
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
+              // display: "grid",
+              // gridTemplateColumns: "1fr 1fr",
               border: "5px solid #2680ed",
               borderRadius: "10px",
               padding: "20px",
@@ -100,31 +125,37 @@ class App extends Component {
               backgroundColor: "#c2c9d1",
             }}
           >
-            <div style={{display:"grid", gridTemplateRows:"1fr 1fr"}}>
-            <LocationInformation
-              city_name={this.state.city_name}
-              lat={this.state.lat}
-              lon={this.state.lon}
-            />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+              <div>
+                <LocationInformation
+                  city_name={this.state.city_name}
+                  lat={this.state.lat}
+                  lon={this.state.lon}
+                />
 
-            
-               <Weather weatherData={this.state.weatherData}  city_name={this.state.city_name}/>
-            
+                <img
+                  src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center= ${this.state.lat},${this.state.lon}&zoom=1-18`}
+                  style={{ height: "400px", margin: "50px 0px", width: "100%" }}
+                ></img>
+
+                <div>
+                  <TopMovies movies={this.state.movies} />
+                </div>
+              </div>
+
+              <Weather
+                weatherData={this.state.weatherData}
+                city_name={this.state.city_name}
+              />
             </div>
-            
-            
-
-            <img
-              src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center= ${this.state.lat},${this.state.lon}&zoom=1-18`}
-              style={{ height: "400px", margin: "auto" }}
-            ></img>
           </div>
         )}
 
         <ErrorAlert
           handleClose={this.handleClose}
           showModal={this.state.showModal}
-          error={this.state.apiError}
+          frontError={this.state.apiError}
+          backError={this.state.sreverError}
         />
       </div>
     );

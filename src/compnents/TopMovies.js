@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, DropdownButton, Dropdown } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 class TopMovies extends Component {
   render() {

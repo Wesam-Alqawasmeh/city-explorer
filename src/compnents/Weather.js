@@ -16,8 +16,8 @@ export class Weather extends Component {
               {this.props.weatherData.map((item) => {
                 return (
                   <div style={{borderBottom:"2px solid #2680ed"}}>
-                    <p>Date: {item.date}</p>
-                    <p>Description: {item.description}</p>
+                    <p>Description: {item.forecast}</p>
+                    <p>Date: {item.time}</p>
                   </div>
                 );
               })}
